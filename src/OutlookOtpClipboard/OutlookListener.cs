@@ -38,6 +38,7 @@ public sealed class OutlookListener : IDisposable
     private void OnNewMail(string entryIdCollection)
     {
         if (application is null) return;
+        logger.Write("Outlook NewMailEx event received.");
         foreach (var entryId in entryIdCollection.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
         {
             try

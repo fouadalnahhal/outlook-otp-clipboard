@@ -75,9 +75,30 @@ public sealed class TrayApplicationContext : ApplicationContext
 
     private void ProcessMessage(EmailMessage message)
     {
-        if (settings.MonitoringPaused || !MatchesFilters(message)) return;
+        if (settings.MonitoringPaused)
+        {
+            logger.Write("Ignored email because monitoring is paused.");
+            return;
+        }
+
+        if (!MatchesFilters(message))
+        {
+            logger.Write($"Ignored email from {message.Sender} because it did not match the configured filters.");
+            return;
+        }
+
         var code = extractor.Extract(message.Subject, message.Body, settings);
-        if (code is null || duplicates.IsDuplicate(code, message.Sender, DateTimeOffset.Now)) return;
+        if (code is null)
+        {
+            logger.Write($"No matching OTP found in email from {message.Sender}.");
+            return;
+        }
+
+        if (duplicates.IsDuplicate(code, message.Sender, DateTimeOffset.Now))
+        {
+            logger.Write($"Ignored duplicate OTP from {message.Sender}: {code}");
+            return;
+        }
 
         lastOtp = code;
         history.Insert(0, new OtpHistoryItem(DateTimeOffset.Now, message.Sender, message.Subject, code));
