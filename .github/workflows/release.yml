@@ -1,0 +1,33 @@
+name: Publish release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+      - name: Build standalone executable
+        shell: pwsh
+        run: .\build.ps1 -Publish
+      - name: Create release ZIP
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path release-staging, release-assets | Out-Null
+          Copy-Item publish\OutlookOtpClipboard.exe release-staging\OutlookOtpClipboard.exe
+          Copy-Item installer\INSTALL.txt release-staging\INSTALL.txt
+          Compress-Archive -Path release-staging\* -DestinationPath release-assets\OutlookOtpClipboard-${{ github.ref_name }}.zip
+      - name: Create GitHub release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create $env:GITHUB_REF_NAME release-assets\OutlookOtpClipboard-$env:GITHUB_REF_NAME.zip --title "Outlook OTP Clipboard $env:GITHUB_REF_NAME" --generate-notes

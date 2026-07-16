@@ -1,0 +1,18 @@
+Outlook OTP Clipboard Assistant — Installation
+
+1. Extract this ZIP file to a permanent folder, such as Documents\OutlookOtpClipboard.
+2. Start classic Microsoft Outlook desktop and sign in.
+3. Double-click OutlookOtpClipboard.exe.
+4. If Windows SmartScreen appears, select More info, then Run anyway.
+5. Find the app's blue information icon in the system tray (near the clock).
+6. Right-click the tray icon and select Open Settings.
+7. For six-digit OTPs, use this pattern: \b\d{6}\b, then select Save.
+
+The app stays in the background and copies newly received Outlook OTPs to the Windows clipboard.
+Paste the code into a website with Ctrl+V.
+
+Requirements
+- Windows 10 or Windows 11
+- Classic Microsoft Outlook desktop running
+
+The new Outlook application does not support the local Outlook automation API used by this tool.

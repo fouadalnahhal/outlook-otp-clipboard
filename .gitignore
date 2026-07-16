@@ -3,4 +3,6 @@ obj/
 publish/
 publish-*/
 installer-output/
+release-assets/
+release-staging/
 .vs/
