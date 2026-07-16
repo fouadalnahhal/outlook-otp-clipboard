@@ -10,6 +10,12 @@ A lightweight Windows tray app that listens to the installed classic Outlook des
 
 > New Outlook does not expose the legacy Outlook COM event API used by this app.
 
+## Easy installation
+
+For most users, download the latest ZIP from the [GitHub Releases page](https://github.com/fouadalnahhal/outlook-otp-clipboard/releases), extract it to a permanent folder, and run `OutlookOtpClipboard.exe`.
+
+No .NET SDK, PowerShell commands, or source-code build is required. The ZIP includes an `INSTALL.txt` guide. Keep classic Outlook running while using the app.
+
 ## Run locally
 
 ```powershell
